@@ -1,1 +1,389 @@
-KudosPlease=function(){function t(t){this.elements=document.querySelectorAll(t.el),this.status=t.status,this.persistent=void 0!=t.persistent?t.persistent&&void 0!=window.localStorage:!0,this.duration=t.duration,this.timer={};for(var e=0;e<this.elements.length;e++){var s=this.elements[e];s.setAttribute("data-id",e),h(s,"GET",this),0==g(e,this)?(s.setAttribute("data-amount",0),this.timer[e]=-1,m(s,"touchstart",d,this),m(s,"touchend",l,this),m(s,"mouseover",c,this),m(s,"mouseout",l,this)):u(s,!1,this)}return this}var e=document.documentElement.classList,s=!!e,a=function(t,e){return s?function(e,s){return""!=s?e.classList[t](s):void 0}:e},n=a("add",function(t,e){e=e.split(",");for(var s=0;s<e.length;s++)-1==t.className.indexOf(e[s])&&(t.className=t.className.trim()+" "+e[s])}),i=a("remove",function(t,e){e=e.split(",");for(var s=0;s<e.length;s++)t.className=t.className.replace(e[s],"").trim()}),o=a("contains",function(t,e){for(var s=t.className.split(" "),a=!1,n=0;n<s.length;n++)s[n]==e&&(a=!0);return a}),r=function(t,e,s){void 0!=s.status&&(void 0!=t.getAttribute("data-status")&&i(t,s.status[t.getAttribute("data-status")]),n(t,s.status[e]),t.setAttribute("data-status",e))},u=function(t,e,s){n(t,"finish"),r(t,"gamma",s),e=e||!1,amount=g(parseInt(t.getAttribute("data-id"),10),s),e&&(++amount,h(t,"POST",s))},c=function(t,e,s){var a=-1;o(e,"finish")||(n(e,"active"),a=setTimeout(function(){i(e,"active"),u(e,!0,s)},s.duration),s.timer[e.getAttribute("data-id")]=a)},d=function(t,e,s){1===t.touches.length&&(t.stopPropagation(),t.preventDefault(),c(t,e,s))},l=function(t,e,s){o(e,"finish")||(i(e,"active"),clearTimeout(s.timer[e.getAttribute("data-id")]))},m=function(t,e,s,a){try{t.addEventListener(e,function(e){s(e,t,a)},!1)}catch(n){t.attachEvent("on"+e,function(e){s(e,t,a)})}},f=function(t,e,s){s.persistent&&window.localStorage.setItem("kudos:saved:"+t.getAttribute("data-url"),e)},g=function(t,e){var s=e.elements[t].getAttribute("data-amount")||0;return e.persistent&&void 0!=(amount=window.localStorage.getItem("kudos:saved:"+e.elements[t].getAttribute("data-url")))&&(s=amount),s},h=function(t,e,s){var a;try{a=new ActiveXObject("Microsoft.XMLHTTP")}catch(n){a=new XMLHttpRequest}a.onreadystatechange=function(){if(4==a.readyState&&200==a.status){var n=a.responseText;t.setAttribute("data-amount",n),"GET"==e&&(r(t,0==n?"alpha":"beta",s),s.persistent&&null!=window.localStorage.getItem("kudos:saved:"+t.getAttribute("data-url"))&&r(t,"gamma",s)),"POST"==e&&f(t,n,s)}};var i="?url="+encodeURIComponent(t.getAttribute("data-url"));a.open(e,"http://api.kudosplease.com/"+i,!0),a.send()};return"".trim||(String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g,"")}),t}(),function(t,e,s){"use strict";function a(){return e.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Image","1.1")}var n=function(){new KudosPlease({el:".kudos",duration:1500,persistent:!0,status:{alpha:"fontelico-emo-shoot",beta:"fontelico-emo-shoot",gamma:"fontelico-emo-beer"}})};e.loaded?n():t.addEventListener?t.addEventListener("load",n,!1):t.attachEvent("onload",n);var i=e.getElementsByTagName("html")[0];if(i.classList.remove("no-js"),i.classList.add("js"),!a()){i.classList.add("no-svg");var o=e.getElementsByTagName("img"),r=/.*\.svg$/,u=0,c=o.length;for(u;u!==c;u++)o[u].src.match(r)&&(o[u].src=o[u].src.slice(0,-3)+"png")}!function(e){var s=3e3;t.sessionStorage&&"false"===sessionStorage.getItem("useTypekit")&&(s=0);var a,n={kitId:"nkm5rqv",scriptTimeout:s},o=setTimeout(function(){i.classList.remove("wf-loading"),i.classList.add("wf-inactive"),t.sessionStorage&&sessionStorage.setItem("useTypekit","false")},n.scriptTimeout),r=e.createElement("script"),u=!1,c=e.getElementsByTagName("script")[0];i.classList.add("wf-loading"),r.src="//use.typekit.net/"+n.kitId+".js",r.async=!0,r.onload=r.onreadystatechange=function(){if(a=this.readyState,!(u||a&&"complete"!==a&&"loaded"!==a)){u=!0,clearTimeout(o);try{Typekit.load(n)}catch(t){}}},c.parentNode.insertBefore(r,c)}(e);for(var d=function(){this.style.color=this.dataset.color},l=function(){this.style.color=""},m=e.querySelectorAll(".project .btn"),f=0;f<m.length;++f)m[f].addEventListener("mouseover",d),m[f].addEventListener("mouseout",l)}(window,document);
+  /**
+   Kudos Please
+
+   A simple kudos widget without any external lib and it works
+   with touch & mouse devices.
+
+   Inspired by dcurt.is
+
+   The heart in this example is served by weloveiconfonts.com,
+   but you can just add a value manually (.finish:before{content:''}).
+
+   # 2013 by Tim Pietrusky
+   # timpietrusky.com
+ **/
+
+ KudosPlease = (function() {
+
+  // Detect support for classList and create a inject function to inject a polyfill if needed.
+  // It's faster: http://jsperf.com/use-class-list-with-polyfill
+  var classList = document.documentElement.classList,
+      support = !!classList,
+      inject = function(fname, polyFunc) {
+        return support ? function(e, param) {if (param != '') {return e.classList[fname](param);}} : polyFunc;
+      },
+
+   /*
+    * Add <CODE>class</CODE> to <CODE>el</CODE>
+    */
+   addClass = inject('add', function(el, classes) {
+     classes = classes.split(',');
+
+     for (var i=0; i < classes.length; i++) {
+       if (el.className.indexOf(classes[i]) == -1) {
+         el.className = el.className.trim() + ' ' + classes[i];
+       }
+     }
+   }),
+
+   /*
+    * Remove <CODE>class</CODE> to <CODE>el</CODE>
+    */
+   removeClass = inject('remove', function(el, classes) {
+     classes = classes.split(',');
+
+     for (var i = 0; i < classes.length; i++) {
+       el.className = el.className.replace(classes[i], '').trim();
+     }
+   }),
+
+   /*
+    * Returns <CODE>true</CODE> if <CODE>el</CODE> has
+    * the <CODE>class</CODE>, <CODE>false</CODE> otherwise
+    */
+   hasClass = inject('contains', function(el, className) {
+     var classes = el.className.split(' '),
+         result = false;
+
+     for (var i = 0; i < classes.length; i++) {
+       if (classes[i] == className) {
+         result = true;
+       }
+     }
+
+     return result;
+   }),
+  /*
+   * Change the status of the widget and
+   * aply 3 different classes for the icon
+   * in the middle.
+   */
+  changeStatus = function(el, state, _$) {
+    if (_$.status != undefined) {
+
+      if (el.getAttribute('data-status') != undefined) {
+        removeClass(el, _$.status[el.getAttribute('data-status')]);
+      }
+
+      addClass(el, _$.status[state]);
+      el.setAttribute('data-status', state);
+    }
+  },
+
+  /*
+   * State: finished (kudos given)
+   */
+  finish = function(el, increase, _$) {
+    // Finished
+    addClass(el, 'finish');
+    changeStatus(el, 'gamma', _$);
+
+    increase = increase || false;
+    amount = loadAmount(parseInt(el.getAttribute('data-id'), 10), _$);
+
+    if (increase) {
+      ++amount;
+
+      // Update kudos via ajax
+      request(el, 'POST', _$);
+    }
+  },
+  /*
+   * Enter the element
+   */
+  enter = function(e, el, _$) {
+    var id = -1;
+
+    // Do the kudo twist
+    if (!hasClass(el, 'finish')) {
+      // Activate the kudo twist
+      addClass(el, 'active');
+
+      // Start timeout
+      id = setTimeout(function() {
+        removeClass(el, 'active');
+        finish(el, true, _$);
+      }, _$.duration);
+
+      // Add timeout id to global object
+      _$.timer[el.getAttribute('data-id')] = id;
+    }
+  },
+   /*
+    * Touch enter the element
+    */
+  touchEnter = function(e, el, _$){
+       // Only execute on single finger touch to allow zooming.
+       if (e.touches.length === 1){
+          // prevent from propagation and preventDefault. So we can use both touch events and mouse events.
+          e.stopPropagation();
+          e.preventDefault();
+
+          // Execute "normal" enter function
+          enter(e, el, _$);
+       }
+  },
+
+  /*
+   * Leave the element
+   */
+  out = function(e, el, _$) {
+    if (!hasClass(el, 'finish')) {
+      removeClass(el, 'active');
+      clearTimeout(_$.timer[el.getAttribute('data-id')]);
+    }
+  },
+  /*
+   * Bind event
+   */
+  on = function(el, event, func, _$) {
+    try {
+      el.addEventListener(event, function(e) { func(e, el, _$); }, false);
+    } catch(e) {
+      el.attachEvent('on' + event, function(e) { func(e, el, _$); });
+    }
+  },
+
+  /*
+   * Saves the amount of a specific widget into localStorage
+   * when <CODE>persistent</CODE> is <CODE>true</CODE>.
+   */
+  save = function(el, amount, _$) {
+    if (_$.persistent) {
+      window.localStorage.setItem('kudos:saved:' + el.getAttribute('data-url'), amount);
+    }
+  },
+
+  /*
+   * Loads the amount of a specific widget from the localStorage
+   * when <CODE>persistent</CODE> is <CODE>true</CODE>.
+   */
+  loadAmount = function(id, _$) {
+    var result = _$.elements[id].getAttribute('data-amount') || 0;
+
+    if (_$.persistent) {
+      if ((amount = window.localStorage.getItem('kudos:saved:' + _$.elements[id].getAttribute('data-url'))) != undefined) {
+        result = amount;
+      }
+    }
+
+    return result;
+  },
+
+
+  /*
+   * Create a ajax request to a backend
+   * which just keeps track of the kudos counter
+   * via php & mysql
+   */
+  request = function(el, type, _$) {
+    var xhr;
+
+    // Initialize
+    try {
+     xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    } catch(e) {
+     xhr = new XMLHttpRequest();
+    }
+
+    // Response received
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var amount = xhr.responseText;
+        el.setAttribute('data-amount', amount);
+
+        if (type == 'GET') {
+          // Set status based on amount
+          changeStatus(el, amount == 0 ? 'alpha' : 'beta', _$);
+
+          // When persistence is activated and a value was saved for the URL,
+          // the kudos widget is in status gamma (finished)
+          if (_$.persistent
+           && window.localStorage.getItem('kudos:saved:' + el.getAttribute('data-url')) != null) {
+            changeStatus(el, 'gamma', _$);
+          }
+        }
+
+        if (type == 'POST') {
+          save(el, amount, _$);
+        }
+      }
+    };
+
+    var url = "?url="+encodeURIComponent(el.getAttribute('data-url'));
+    // Open request
+    xhr.open(type, "http://api.kudosplease.com/" + url, true);
+    xhr.send();
+  };
+
+  /*
+   * Constructor
+   */
+  function KudosPlease(args) {
+    // All widgets
+    this.elements = document.querySelectorAll(args.el);
+    // Set the status
+    this.status = args.status;
+    // Is localStorage enabled?
+    this.persistent = args.persistent != undefined ? (args.persistent && window.localStorage != undefined) : true;
+    // Duration of activation
+    this.duration = args.duration;
+    // setTimeout-ID's
+    this.timer = {};
+
+    for (var i = 0; i < this.elements.length; i++) {
+      var el = this.elements[i];
+
+      // Delete all elements from localStorage
+      // localStorage.setItem('kudos:saved:'+el.getAttribute('data-url'), 0);
+
+      // Identify element
+      el.setAttribute('data-id', i);
+
+      // Load kudos via ajax
+      request(el, 'GET', this);
+
+      // Amount is 0
+      if (loadAmount(i, this) == 0) {
+        // Set kudos amount
+        el.setAttribute('data-amount', 0);
+
+        // Init timer id
+        this.timer[i] = -1;
+
+        // Events, both touch and mouse
+        on(el, 'touchstart', touchEnter, this);
+        on(el, 'touchend', out, this);
+        on(el, 'mouseover', enter, this);
+        on(el, 'mouseout', out, this);
+
+      // Load the amount and display it, because user already voted
+      } else {
+        finish(el, false, this);
+      }
+    }
+
+    return this;
+  }
+
+  // trim polyfill
+  ''.trim || (String.prototype.trim = function(){
+    return this.replace(/^\s+|\s+$/g,'');
+  });
+
+  return KudosPlease;
+ })();
+(function (window, document, undefined) {
+
+  'use strict';
+
+  var pageLoaded = function () {
+    new KudosPlease({
+      el : '.kudos',
+      duration : 1500,
+      persistent : true,
+      status : {
+        alpha: 'fontelico-emo-shoot',
+        beta: 'fontelico-emo-shoot',
+        gamma: 'fontelico-emo-beer'
+      }
+    });
+  };
+
+  if(document.loaded) {
+    pageLoaded();
+  } else {
+    if (window.addEventListener) {
+      window.addEventListener('load', pageLoaded, false);
+    } else {
+      window.attachEvent('onload', pageLoaded);
+    }
+  }
+
+  function svgasimg() {
+    return document.implementation.hasFeature(
+      'http://www.w3.org/TR/SVG11/feature#Image', '1.1');
+  }
+
+  var mainHTML = document.getElementsByTagName('html')[0];
+
+  mainHTML.classList.remove('no-js');
+  mainHTML.classList.add('js');
+
+  if (!svgasimg()) {
+    mainHTML.classList.add('no-svg');
+    var imgs = document.getElementsByTagName('img');
+    var endsWithDotSvg = /.*\.svg$/;
+    var i = 0;
+    var l = imgs.length;
+    for(i; i !== l; i++) {
+      if(imgs[i].src.match(endsWithDotSvg)) {
+        imgs[i].src = imgs[i].src.slice(0, -3) + 'png';
+      }
+    }
+  }
+
+  (function(d) {
+    var tkTimeout = 3000;
+    if (window.sessionStorage) {
+      if (sessionStorage.getItem('useTypekit') === 'false') {
+        tkTimeout = 0;
+      }
+    }
+    var config = {
+      kitId: 'nkm5rqv',
+      scriptTimeout: tkTimeout
+    },
+    t = setTimeout(function() {
+      mainHTML.classList.remove('wf-loading');
+      mainHTML.classList.add('wf-inactive');
+      if (window.sessionStorage) {
+        sessionStorage.setItem('useTypekit', 'false');
+      }
+    }, config.scriptTimeout),
+    tk = d.createElement('script'),
+    f = false,
+    s = d.getElementsByTagName('script')[0],
+    a;
+    // h.className += 'wf-loading';
+    mainHTML.classList.add('wf-loading');
+    tk.src = '//use.typekit.net/' + config.kitId + '.js';
+    tk.async = true;
+    tk.onload = tk.onreadystatechange = function() {
+      a = this.readyState;
+      if (f || a && a !== 'complete' && a !== 'loaded'){
+        return;
+      }
+      f = true;
+      clearTimeout(t);
+      try {
+        Typekit.load(config);
+      } catch (e) {}
+    };
+    s.parentNode.insertBefore(tk, s);
+  })(document);
+
+  var hoverEvent = function() {
+    this.style.color = this.dataset.color;
+  },
+  hoverExitEvent = function() {
+    this.style.color = '';
+  };
+
+  var myNodeList = document.querySelectorAll('.project .btn');
+  for (var index = 0; index < myNodeList.length; ++index) {
+    myNodeList[index].addEventListener('mouseover',hoverEvent);
+    myNodeList[index].addEventListener('mouseout',hoverExitEvent);
+  }
+
+})(window, document);

@@ -90,7 +90,7 @@ var processors = [
       interlaced: true,
       multipass: true,
     },
-    tasks = ['lint', 'compress', 'css', 'svg', 'images', 'watch'];
+    tasks = ['lint', 'compress', 'css', 'svg', 'images', 'html', 'watch'];
 
 gulp.task('server', tasks, function() {
   browsersync.init({
@@ -101,11 +101,11 @@ gulp.task('server', tasks, function() {
 // Convert series of SVG files to an SVG Sprite
 gulp.task('sprites', function () {
   'use strict';
-  gulp.src(app.sprite)
+  gulp.src(sources.sprite)
     .pipe(changed(app.icons))
     .pipe(svgSprite(spriteConfig))
     .pipe(gulp.dest(app.build));
-  gulp.src(app.symbol)
+  gulp.src(sources.symbol)
     .pipe(gulp.dest(app.build+app.img));
   gulp.start('raster');
 });
@@ -113,7 +113,7 @@ gulp.task('sprites', function () {
 // Optimise SVG files
 gulp.task('svg', function() {
   'use strict';
-  return gulp.src(app.vector)
+  return gulp.src(sources.vector)
     .pipe(changed(app.ship+app.img))
     .pipe(imagemin(imageConfig))
     .pipe(gulp.dest(app.ship+app.img));
@@ -173,6 +173,13 @@ gulp.task('css', function() {
     .pipe(gulp.dest(app.ship+app.css));
 });
 
+// PostCSS Goodness
+gulp.task('html', function() {
+  'use strict';
+  return gulp.src(sources.html)
+    .pipe(gulp.dest(app.ship));
+});
+
 // Watch Files For Changes
 gulp.task('watch', function() {
   'use strict';
@@ -181,6 +188,7 @@ gulp.task('watch', function() {
   gulp.watch(sources.vector, ['svg', 'images', browsersync.reload]);
   gulp.watch(sources.raster, ['images', browsersync.reload]);
   gulp.watch(sources.sprite, ['sprites', browsersync.reload]);
+  gulp.watch(sources.html, ['html', browsersync.reload]);
 });
 
 // Default Task
