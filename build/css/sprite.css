@@ -1,0 +1,138 @@
+.sprite-graphic:after {
+  background: url(../img/sprite-089f09a1.svg.png);
+  background: url(../img/sprite-089f09a1.svg), linear-gradient(transparent, transparent);
+  background-repeat: no-repeat;
+}
+
+.sprite-arrow-right-blue:after {
+  background-position: 42.69662921348315% 100%;
+  width: 12px;
+  height: 12px;
+}
+
+.sprite-arrow-right-green:after {
+  background-position: 15.730337078651685% 100%;
+  width: 12px;
+  height: 12px;
+}
+
+.sprite-arrow-right-orange:after {
+  background-position: 29.213483146067414% 100%;
+  width: 12px;
+  height: 12px;
+}
+
+.sprite-close:after {
+  background-position: 100% 0;
+  width: 18px;
+  height: 19px;
+}
+
+.sprite-delete:after {
+  background-position: 0 0;
+  width: 34px;
+  height: 34px;
+}
+
+.sprite-edit:after {
+  background-position: 76.62337662337663% 0;
+  width: 24px;
+  height: 24px;
+}
+
+.sprite-email:after {
+  background-position: 75.64102564102564% 34.285714285714285%;
+  width: 23px;
+  height: 18px;
+}
+
+.sprite-facebook:after {
+  background-position: 0 81.53846153846153%;
+  width: 12px;
+  height: 23px;
+}
+
+.sprite-files:after {
+  background-position: 39.02439024390244% 80.3030303030303%;
+  width: 19px;
+  height: 22px;
+}
+
+.sprite-instagram:after {
+  background-position: 62.96296296296296% 77.94117647058823%;
+  width: 20px;
+  height: 20px;
+}
+
+.sprite-location-blue:after {
+  background-position: 94.31818181818181% 27.142857142857142%;
+  width: 13px;
+  height: 18px;
+}
+
+.sprite-lock:after {
+  background-position: 48.31460674157304% 47.22222222222222%;
+  width: 12px;
+  height: 16px;
+}
+
+.sprite-menu:after {
+  background-position: 98.80952380952381% 48.68421052631579%;
+  width: 17px;
+  height: 12px;
+}
+
+.sprite-minus:after {
+  background-position: 94.31818181818181% 75.5813953488372%;
+  width: 13px;
+  height: 2px;
+}
+
+.sprite-navigateleft:after {
+  background-position: 92.22222222222223% 68.05555555555556%;
+  width: 11px;
+  height: 16px;
+}
+
+.sprite-panel-minus:after {
+  background-position: 44.73684210526316% 0;
+  width: 25px;
+  height: 3px;
+}
+
+.sprite-panel-plus:after {
+  background-position: 44.73684210526316% 4.761904761904762%;
+  width: 25px;
+  height: 25px;
+}
+
+.sprite-plus:after {
+  background-position: 79.7752808988764% 69.73684210526316%;
+  width: 12px;
+  height: 12px;
+}
+
+.sprite-search:after {
+  background-position: 29.26829268292683% 49.27536231884058%;
+  width: 19px;
+  height: 19px;
+}
+
+.sprite-small-check:after {
+  background-position: 0 100%;
+  width: 14px;
+  height: 12px;
+}
+
+.sprite-trash:after {
+  background-position: 14.814814814814815% 80.3030303030303%;
+  width: 20px;
+  height: 22px;
+}
+
+.sprite-twitter:after {
+  background-position: 0 49.27536231884058%;
+  width: 24px;
+  height: 19px;
+}
+

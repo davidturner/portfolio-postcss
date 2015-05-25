@@ -1,0 +1,24 @@
+/**
+ * custom properties
+ * usage: color: var(--mainColor);
+ */
+:root {
+  /*Settings Sizings*/
+  --fontSize: 1rem;
+  /*Setting Font Families*/
+  --fontFamilySans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --fontFamilySerif: Georgia, serif;
+  --fontFamilyCode: 'andale mono', 'lucida console', monospace;
+  --fontFamilyMain: skolar, var(--fontFamilySans);
+  --fontFamilyHeadings: ff-meta-web-pro, var(--fontFamilySans);
+  /*Setting Colours*/
+  --mainColor: #222;
+  --linkColor: #BD6A6A;
+  --hoverColor: color(var(--linkColor) blackness(+20%));
+  --backgroundColor: #f9f9f9;
+  --rgbaDark: rgba(0,0,0,0.2);
+  --rgbaLight: rgba(255,255,255,0.2);
+  /*Setting Layout Dimensions*/
+  --layoutWidth: 90%;
+  --layoutMaxWidth: 62.5rem;
+}

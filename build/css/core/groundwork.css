@@ -1,0 +1,209 @@
+blockquote,
+dl,
+menu,
+ol,
+ul {
+    margin: 1.5em 0 0;
+}
+
+body,
+figure,
+form,
+ul {
+    margin: 0;
+}
+
+body,
+p {
+    line-height: 2rem;
+}
+
+.btn,
+.pagination,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+nav {
+    font-family: var(--fontFamilyHeadings);
+}
+
+.bold,
+a,
+b,
+strong {
+    font-weight: 700;
+}
+
+.btn,
+.highlight,
+.pagination a {
+    border-radius: 3px;
+}
+
+*,
+:after,
+:before {
+    box-sizing: border-box;
+}
+
+::selection {
+    background-color: var(--linkColor);
+    color: var(--backgroundColor);
+    text-shadow: none;
+}
+
+ul {
+    list-style-type: square;
+}
+
+nav ol,
+nav ul {
+    list-style: none;
+}
+
+img {
+    border: 0;
+    max-width: 100%;
+    height: auto;
+}
+
+.post-title {
+    margin-bottom: 0;
+}
+
+.post-meta {
+    margin-top: 0;
+}
+
+@media all and (min-width: 800px) {
+    ol,
+    ul {
+        padding-left: 0;
+    }
+    ol ol,
+    ol ul,
+    ul ol,
+    ul ul {
+        padding-left: 2em;
+    }
+}
+
+blockquote {
+  padding: 0 1.5em;
+  border-left: 5px solid #BD6A6A;
+}
+
+blockquote p:first-of-type {
+    padding-top: 0;
+}
+
+.tweet,
+.twitter,
+.twitter-tweet {
+    border-left-color: #00acee;
+    position: relative;
+}
+
+.tweet:after,
+.twitter-tweet:after,
+.twitter:after {
+    content: '';
+    background: url(/img/twitter.png);
+    background: url(/img/twitter.svg),
+                linear-gradient(transparent, transparent);
+    background-color: #00acee;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 70%;
+    width: 2em;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 100%;
+}
+
+.pullquote {
+    width: 50%;
+    display: inline-block;
+    margin: 5%;
+    border-left: 0;
+    position: relative;
+    padding: 0;
+}
+
+.pullquote p:first-of-type,
+article:first-of-type {
+    margin-top: 0;
+}
+
+.pagination li,
+nav li {
+    display: inline;
+}
+
+.pullquote:nth-of-type(odd) {
+    float: left;
+    margin-left: 0;
+}
+
+@media all and (min-width: 1200px) {
+    body {
+        font-size: 132%;
+    }
+    .pullquote:nth-of-type(odd) {
+        left: -15%;
+        margin-right: -10%;
+    }
+}
+
+.pullquote:nth-of-type(even) {
+    float: right;
+    margin-right: 0;
+}
+
+@media all and (min-width: 1200px) {
+    .pullquote:nth-of-type(even) {
+        right: -15%;
+        margin-left: -10%;
+    }
+}
+
+.pullquote p:last-of-type {
+    margin-bottom: 0;
+}
+
+article {
+    margin-top: 4em;
+}
+
+.btn {
+    border: 2px solid #BD6A6A;
+    padding: 0 .5em 2px;
+}
+
+.btn:hover {
+    background: #BD6A6A;
+    color: #f9f9f9;
+    border-color: #BD6A6A;
+    text-decoration: none;
+}
+
+a,
+nav a:hover {
+    color: #BD6A6A;
+    text-decoration: none;
+}
+
+a {
+    transition: all 300ms ease-in-out;
+    text-shadow: none;
+}
+
+a:active,
+a:hover {
+    outline: 0;
+    color: #b03f3f;
+}

@@ -1,0 +1,14 @@
+.{{commonName}} {
+  background: url({{{sprite}}}.png);
+  background: url({{{sprite}}}), linear-gradient(transparent, transparent);
+  background-repeat: no-repeat;
+}
+
+{{#shapes}}
+{{#selector.shape}}{{expression}}{{/selector.shape}} {
+  {{#hasCommon}}background-position: {{position.relative.xy}};{{/hasCommon}}
+  width: {{width.outer}}px;
+  height: {{height.outer}}px;
+}
+
+{{/shapes}}

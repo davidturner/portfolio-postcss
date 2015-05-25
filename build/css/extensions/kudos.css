@@ -1,0 +1,74 @@
+.kudos-wrapper {
+    display: inline-block;
+    float: right;
+    margin-top: -.8em;
+    margin-right: 110px;
+}
+
+.kudos {
+    color: #222;
+    position: relative;
+    width: 2em;
+    height: 2em;
+    margin: .5em auto 1.5em;
+    background: #f9f9f9;
+    box-shadow: inset 0 0 0 3px #222,
+                inset 0 0 0 .66667em #f9f9f9,
+                inset 0 0 0 2em #222;
+    line-height: 2em;
+    border-radius: 50%;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    transition: box-shadow .225s ease-out;
+    display: block;
+}
+
+.kudos:before {
+    transition: font-size .45s ease-in;
+    font-size: 1.75em;
+    line-height: 1.75;
+    color: #f9f9f9;
+}
+
+.kudos.active {
+    transition: box-shadow 1.5s linear;
+    box-shadow: inset 0 0 0 .25em #222,
+                inset 0 0 0 0 #f9f9f9,
+                inset 0 0 0 .75em rgba(189, 106, 106, .75),
+                inset 0 0 0 2em #BD6A6A;
+}
+
+.kudos.active:after {
+    content: 'Don\'t move!';
+}
+
+.kudos.finish {
+    transition: box-shadow .45s linear,
+                transform .5625s ease-in-out;
+    box-shadow: inset 0 0 0 3px rgba(189, 106, 106, .5),
+                inset 0 0 0 .5em #f9f9f9,
+                inset 0 0 0 2em #BD6A6A;
+}
+
+.kudos.finish:hover {
+    transform: scale(1.25, 1.25),
+               translateY(-.75em);
+}
+
+.kudos.finish:before {
+    font-size: 2.25em;
+    line-height: 2.25;
+    color: #f9f9f9;
+}
+
+.kudos:after {
+    position: relative;
+    content: attr(data-amount)" Kudos";
+    top: 0;
+    left: 100%;
+    width: 110px;
+    text-align: left;
+    display: inline-block;
+    line-height: 1em;
+    padding-left: .25em;
+}

@@ -1,0 +1,25 @@
+.pagination {
+    margin-top: 4em;
+}
+
+.pagination a {
+    padding: .25em .5em;
+    background-image: none;
+    text-shadow: none;
+}
+
+.pagination a:hover {
+    background: rgba(0, 0, 0, .05);
+    text-decoration: none;
+    background-image: none;
+    text-shadow: none;
+}
+
+.pagination .current--page {
+    color: #222;
+}
+
+.pagination .current--page:hover {
+    background: 0 0;
+    cursor: default;
+}

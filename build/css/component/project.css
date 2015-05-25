@@ -1,0 +1,91 @@
+.project,
+.projects {
+    display: block;
+    width: 100%;
+    margin-top: 0;
+}
+
+.project {
+    border-top: 5px solid #BD6A6A;
+    clear: both
+}
+
+.project:first-child {
+    border-top: 0
+}
+
+.project-description,
+.project-image {
+    display: block;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.project-image {
+    background-position: bottom center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media all and (min-width: 800px) {
+    .project-description,
+    .project-image {
+        display: inline-block;
+        float: left;
+        height: 0;
+        padding-bottom: 50%;
+        width: 50%;
+    }
+    .project-image.project-even {
+        float: right
+    }
+}
+
+.project-description {
+    color: #f9f9f9;
+    height: auto;
+    padding-bottom: 0;
+}
+
+@media all and (min-width: 800px) {
+    .project-description {
+        height: 0;
+        padding-bottom: 50%;
+    }
+}
+
+.project-description a,
+.project-description p {
+    color: #f9f9f9;
+}
+
+.project-description .btn {
+    border-color: #f9f9f9;
+}
+
+.project-description .btn:hover {
+    background: #f9f9f9;
+    border-color: #f9f9f9;
+    color: #222;
+}
+
+.project-content {
+    padding: 2em;
+    z-index: 10;
+}
+
+@media all and (min-width: 800px) {
+    .project-content {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+}
+
+@media all and (min-width: 1200px) {
+    .project-content {
+        padding: 2em 10%;
+    }
+}
